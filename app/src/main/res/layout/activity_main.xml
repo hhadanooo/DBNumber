@@ -1,18 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/backlow">
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/circletop"
+        android:scaleX="-1.5"
+        android:background="@drawable/circle"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:id="@+id/iv_setting"
+        android:background="@drawable/setting"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/view_top_tvName"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#FFF"
+        android:layout_below="@id/view_top_tvName"
+        android:layout_centerHorizontal="true"
+        android:text="DBNumber"
+        android:id="@+id/tv_nameApp"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_moreApp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/hrwanheda"/>
+
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:id="@+id/lay_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/circletop"
+        tools:ignore="RtlSymmetry"
+        android:background="@drawable/backsearch">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/et_search"
+            />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/iv_search"
+            android:background="@drawable/search"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backcenter"
+        android:id="@+id/lay_item"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/lay_search"/>
+
+
+</RelativeLayout>
