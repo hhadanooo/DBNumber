@@ -2,5 +2,12 @@
 <resources>
     <color name="colorPrimary">#2e7f7f</color>
     <color name="colorPrimaryDark">#1d3333</color>
+<<<<<<< HEAD
     <color name="colorAccent">#295554</color>
+=======
+    <color name="colorAccent">#5cfefe</color>
+
+    <color name="dot_incative">#a3a3a3</color>
+    <color name="dot_active">#ffffff</color>
+>>>>>>> 6fc254a193acdf25e2feff5f9a22874a2f343ae0
 </resources>
