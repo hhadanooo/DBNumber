@@ -3,6 +3,7 @@ package ir.hrwanheda.dbnumber.welcome;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,9 +21,13 @@ import ir.hrwanheda.dbnumber.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 
+    SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences = getSharedPreferences("pref",MODE_PRIVATE);
+
+
         setContentView(R.layout.activity_welcome);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Objects.requireNonNull(getSupportActionBar()).hide();
@@ -44,8 +49,15 @@ public class WelcomeActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(WelcomeActivity.this, IntroSlider.class));
-                finish();
+                if(preferences.getString("start","").isEmpty())
+                {
+                    startActivity(new Intent(WelcomeActivity.this, IntroSlider.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                    finish();
+                }
+
             }
         }, 2500);
     }

