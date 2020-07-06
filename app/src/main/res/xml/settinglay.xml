@@ -21,7 +21,6 @@
             android:key="unknown"
             android:title="unknown calls only" />
         <ListPreference
-            android:defaultValue="true"
             android:entries="@array/showCallerInfo"
             android:entryValues="@array/showCallerInfo"
             android:key="callerInfo"

@@ -61,6 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:id="@+id/et_search"
+            android:maxLength="15"
+            android:hint="9171234567"
             android:inputType="number"
             android:background="@android:color/transparent"
             />
@@ -71,6 +73,14 @@
             android:id="@+id/iv_search"
             android:scaleType="fitCenter"
             android:background="@drawable/search1"/>
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/avi"
+            app:indicatorColor="#000"
+            app:indicatorName="BallClipRotatePulseIndicator"
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 
