@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">DBNumber</string>
+
+    <array name="showCallerInfo">
+        <item>top</item>
+        <item>middle</item>
+        <item>bottom</item>
+    </array>
 </resources>

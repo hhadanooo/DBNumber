@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <PreferenceCategory android:title="see who's calling">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="During"
+            android:title="During Call" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="After"
+            android:title="After Call" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="Identify"
+            android:title="Identify Outgoing calls" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="unknown"
+            android:title="unknown calls only" />
+        <ListPreference
+            android:defaultValue="true"
+            android:entries="@array/showCallerInfo"
+            android:entryValues="@array/showCallerInfo"
+            android:key="callerInfo"
+            android:title="CallerInfo" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="About">
+<PreferenceScreen
+    android:title="privacy policy">
+
+    <intent android:targetPackage="ir.hrwanheda.dbnumber"
+        android:targetClass="ir.hrwanheda.dbnumber.test"/>
+</PreferenceScreen>
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

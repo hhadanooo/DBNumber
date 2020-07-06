@@ -53,22 +53,24 @@
         android:orientation="horizontal"
         android:layout_below="@+id/circletop"
         tools:ignore="RtlSymmetry"
+        android:padding="5dp"
         android:background="@drawable/backsearch">
 
         <EditText
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
             android:layout_gravity="center_vertical"
             android:id="@+id/et_search"
+            android:inputType="number"
+            android:background="@android:color/transparent"
             />
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
             android:id="@+id/iv_search"
-            android:background="@drawable/search"/>
+            android:scaleType="fitCenter"
+            android:background="@drawable/search1"/>
 
     </LinearLayout>
 
@@ -80,7 +82,25 @@
         android:background="@drawable/backcenter"
         android:id="@+id/lay_item"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/lay_search"/>
+        android:layout_below="@id/lay_search">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:id="@+id/lay_inItem"
+                android:padding="10dp"
+                />
+
+        </ScrollView>
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>
