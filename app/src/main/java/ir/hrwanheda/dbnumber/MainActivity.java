@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tv_nameApp;
     ImageView iv_search , iv_moreApp, iv_setting;
     LinearLayout lay_search , lay_item , lay_inItem;
-    DisplayMetrics dm;
+    public static DisplayMetrics dm;
     RequestQueue queue ;
     AVLoadingIndicatorView avi;
     int delayAnim = 25;

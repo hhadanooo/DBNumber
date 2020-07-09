@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -13,6 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".wedgetSwing.FloatingViewService"
+            android:enabled="true"
+            android:exported="false"/>
         <activity android:name=".setting.Setting"></activity>
         <activity android:name=".CheckPermissionAndIntroSlider.IntroSlider"></activity>
         <activity android:name=".test">
@@ -27,5 +32,6 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="stateVisible|adjustPan"></activity>
     </application>
+
 
 </manifest>
