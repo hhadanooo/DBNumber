@@ -6,4 +6,6 @@
         <item>middle</item>
         <item>bottom</item>
     </array>
+
+    <string name="TextPermission" >The necessary access for this application is contacts and call management. By providing these accesses, in addition to supporting us, you can benefit from all the features of this software.</string>
 </resources>
