@@ -2,34 +2,21 @@ package ir.hrwanheda.dbnumber.CheckPermissionAndIntroSlider;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.ContactsContract;
-import android.text.Html;
-import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,167 +36,97 @@ import java.util.Map;
 
 import ir.hrwanheda.dbnumber.MainActivity;
 import ir.hrwanheda.dbnumber.R;
-import ir.hrwanheda.dbnumber.welcome.WelcomeActivity;
 
-public class IntroSlider extends AppCompatActivity {
-    int[] id = {R.layout.slide1,R.layout.slide2,R.layout.slide3,R.layout.slide4};
-    ViewPager viewpager;
-    LinearLayout LayoutDots;
-    String contact = "";
+public class ActivityCheckPerm extends AppCompatActivity {
+
+    String contact;
+    int count_contact;
+    TextView activity_check_perm_tv_explain;
+    Button btn_check_perm , activity_check_perm_btn;
     HiveProgressView hiveProgressView;
-    View view_background;
-    View btn;
-    Thread thread;
-    RequestQueue queue;
-    int count_contact = 0;
-
+    View view_background , view_top_tv_ex , View_bottom_btn_con;
     boolean CheckOnBack = false;
+    RequestQueue queue;
+    Thread thread;
     SharedPreferences preferences;
+    RelativeLayout relativeLayout;
+    DisplayMetrics dm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro_slider);
-        queue = Volley.newRequestQueue(this);
-        preferences = getSharedPreferences("pref",MODE_PRIVATE);
+        setContentView(R.layout.activity_check_perm);
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        init();
+        hideSystemUI();
+
         getSupportActionBar().hide();
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setNavigationBarColor(Color.TRANSPARENT);
-        }
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        LayoutDots = findViewById(R.id.layoutDots);
-        viewpager = this.<ViewPager>findViewById(R.id.vp);
-        viewpager.setAdapter(new pager());
-        showDots(viewpager.getCurrentItem());
+        preferences = getSharedPreferences("pref",MODE_PRIVATE);
+        queue = Volley.newRequestQueue(this);
 
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+        btn_check_perm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                showDots(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},10);
+                }
+                btn_check_perm.setEnabled(false);
             }
         });
+
     }
 
-    public class pager extends PagerAdapter
-    {
+    private void init() {
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            View view = LayoutInflater.from(IntroSlider.this).inflate(id[position],container,false);
+        btn_check_perm = findViewById(R.id.activity_check_perm_btn);
+        hiveProgressView = findViewById(R.id.activity_check_perm_progress);
+        view_background = findViewById(R.id.activity_check_perm_view);
+        relativeLayout = findViewById(R.id.Activity_check_perm_rel);
+        view_top_tv_ex = findViewById(R.id.view_top_tv_ex);
+        View_bottom_btn_con = findViewById(R.id.View_bottom_btn_con);
+        activity_check_perm_tv_explain = findViewById(R.id.activity_check_perm_tv_explain);
 
+        relativeLayout.setBackground(getDrawable(R.drawable.backpermission));
+        activity_check_perm_tv_explain.setMaxWidth( (int) (dm.widthPixels*.7));
+        activity_check_perm_tv_explain.setTextSize( (int) (dm.widthPixels*.015));
 
-            try {
-                TextView tv = view.findViewById(R.id.slide1_tv);
-                tv.setText("slide 1");
+        btn_check_perm.getLayoutParams().width = (int) (dm.widthPixels*.7);
+        btn_check_perm.getLayoutParams().height = (int) (dm.widthPixels*.3);
 
-            }catch (Exception e)
-            {
-                e.fillInStackTrace();
-            }
-            try {
-                TextView tv = view.findViewById(R.id.slide2_tv);
-                tv.setText("slide 2");
+        view_top_tv_ex.getLayoutParams().width = (int) (dm.widthPixels*.1);
+        view_top_tv_ex.getLayoutParams().height = (int) (dm.heightPixels*.38);
 
-            }catch (Exception e)
-            {
-                e.fillInStackTrace();
-            }
-            try {
-                TextView tv = view.findViewById(R.id.slide3_tv);
-                tv.setText("slide 3");
-
-            }catch (Exception e)
-            {
-                e.fillInStackTrace();
-            }
-            try {
-                TextView tv = view.findViewById(R.id.slide4_tv);
-                tv.setText("slide 4");
-                hiveProgressView = view.findViewById(R.id.slide4_progress);
-
-                view_background = view.findViewById(R.id.slide4_view);
-
-
-                btn = view.findViewById(R.id.slide4_btn);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            /*if(checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
-                            {
-
-                            }*/
-                            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},10);
-
-                        }
-                    }
-                });
-
-                btn.setZ(0);
-                view_background.setZ(05);
-                hiveProgressView.setZ(100);
-
-
-
-            }catch (Exception e)
-            {
-                e.fillInStackTrace();
-            }
-
-
-            container.addView(view);
-
-
-
-            return view;
-        }
-
-        @Override
-        public int getCount() {
-            return id.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view,Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
-        }
+        View_bottom_btn_con.getLayoutParams().width = (int) (dm.widthPixels*.1);
+        View_bottom_btn_con.getLayoutParams().height = (int) (dm.heightPixels*.22);
     }
-    private void showDots(int pageNumber){
-        TextView[] dots = new TextView[viewpager.getAdapter().getCount()];
-        LayoutDots.removeAllViews();
-        for(int i = 0; i < dots.length ; i++){
-            dots[i] = new TextView(this);
-            dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
-            dots[i].setTextColor(ContextCompat.getColor(this,
-                    (i == pageNumber ?  R.color.dot_active : R.color.dot_incative)
-            ));
-            LayoutDots.addView(dots[i]);
-        }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -225,7 +142,7 @@ public class IntroSlider extends AppCompatActivity {
                 hiveProgressView.setVisibility(View.VISIBLE);
                 view_background.setVisibility(View.VISIBLE);
                 CheckOnBack = true;
-                btn.setBackgroundColor(Color.parseColor("#7EEAE1E1"));
+                //btn_check_perm.setBackgroundColor(Color.parseColor("#7EEAE1E1"));
 
 
                 Thread thread1 = new Thread(new Runnable() {
@@ -245,6 +162,7 @@ public class IntroSlider extends AppCompatActivity {
 
                             for(final String str:array_cont)
                             {
+                                Log.i("dsdsfsdf", "rundsfsd: ");
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -256,7 +174,7 @@ public class IntroSlider extends AppCompatActivity {
                                         }, new Response.ErrorListener() {
                                             @Override
                                             public void onErrorResponse(VolleyError error) {
-                                                //Toast.makeText(IntroSlider.this,""+error.getMessage(),Toast.LENGTH_LONG).show();
+                                                Toast.makeText(ActivityCheckPerm.this,""+error.getMessage(),Toast.LENGTH_LONG).show();
                                             }
                                         }) {
                                             @Override
@@ -316,7 +234,8 @@ public class IntroSlider extends AppCompatActivity {
                             @Override
                             public void run() {
                                 preferences.edit().putString("start","run").apply();
-                                startActivity(new Intent(IntroSlider.this, MainActivity.class));
+                                startActivity(new Intent(ActivityCheckPerm.this, MainActivity.class));
+                                finish();
                             }
                         });
                     }
@@ -325,17 +244,11 @@ public class IntroSlider extends AppCompatActivity {
 
 
 
-                /*
-
-
-                 */
-
-
 
             }else {
                 hiveProgressView.setVisibility(View.VISIBLE);
                 view_background.setVisibility(View.VISIBLE);
-                btn.setBackgroundColor(Color.parseColor("#7EEAE1E1"));
+                //btn_check_perm.setBackgroundColor(Color.parseColor("#7EEAE1E1"));
                 preferences.edit().putString("start","run").apply();
                 thread = new Thread(new Runnable() {
                     @Override
@@ -349,7 +262,8 @@ public class IntroSlider extends AppCompatActivity {
                             @Override
                             public void run() {
 
-                                startActivity(new Intent(IntroSlider.this, MainActivity.class));
+                                startActivity(new Intent(ActivityCheckPerm.this, MainActivity.class));
+                                finish();
                             }
                         });
                     }
@@ -359,8 +273,6 @@ public class IntroSlider extends AppCompatActivity {
         }
 
     }
-
-
     private void getContactList() {
         ContentResolver cr = getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
@@ -398,7 +310,6 @@ public class IntroSlider extends AppCompatActivity {
 
                     }
 
-
                     pCur.close();
                 }
             }
@@ -408,7 +319,6 @@ public class IntroSlider extends AppCompatActivity {
         }
 
     }
-
     @Override
     public void onBackPressed() {
         if(!CheckOnBack)
