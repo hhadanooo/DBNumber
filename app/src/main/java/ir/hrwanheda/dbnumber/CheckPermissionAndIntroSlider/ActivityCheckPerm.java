@@ -70,7 +70,7 @@ public class ActivityCheckPerm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},10);
+                    requestPermissions(new String[]{Manifest.permission.READ_CONTACTS,Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CALL_LOG},10);
                 }
                 btn_check_perm.setEnabled(false);
             }

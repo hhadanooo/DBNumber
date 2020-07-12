@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "ir.hrwanheda.dbnumber"
+        applicationId "ir.hrwanheda.dbnumber1"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
