@@ -20,6 +20,7 @@ import ir.hrwanheda.dbnumber.CheckPermissionAndIntroSlider.ActivityCheckPerm;
 import ir.hrwanheda.dbnumber.CheckPermissionAndIntroSlider.IntroSlider;
 import ir.hrwanheda.dbnumber.MainActivity;
 import ir.hrwanheda.dbnumber.R;
+import ir.hrwanheda.dbnumber.test;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -70,7 +71,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     startActivity(new Intent(WelcomeActivity.this, ActivityCheckPerm.class));
                     finish();
                 }else {
-                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this, test.class));
                     finish();
                 }
 
